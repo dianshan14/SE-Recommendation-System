@@ -9,32 +9,26 @@
 </head>
 
 <body>
-    <div>
-        <div>
-
-            <form method="POST">
-                <div>
-                    <label>
-                        account
-                        <input type="text" name="account">
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        password
-                        <input type="text" name="passoword">
-                    </label>
-                </div>
-                <div>
-                    <button>submit</button>
-                </div>
-            </form>
-            <a href="../templates/index.html">index</a>
-            <a href="../templates/referee.html">referee</a>
-            <a href="../templates/referer.html">referer</a>
-            <a href="../templates/fillform.html">fillform</a>
-        </div>
+    <header></header>
+    <div class="form-container"> Login
+        <form method="POST">
+            <label>Account
+                <input type="text" name="account" required>
+            </label>
+            <br>
+            <label>Password
+                <input type="text" name="password" required>
+            </label>
+            <br>
+            <button>submit</button>
+        </form>
     </div>
+    <footer>
+        <a href="../templates/index.html">index</a>
+        <a href="../templates/referee.html">referee</a>
+        <a href="../templates/referer.html">referer</a>
+        <a href="../templates/fillform.html">fillform</a>
+    </footer>
 </body>
 
 </html>
