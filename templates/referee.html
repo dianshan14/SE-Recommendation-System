@@ -6,14 +6,55 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" type="text/css" href="../static/assets/css/style.css">
     <script src="../static/assets/js/index.js"></script>
+    <script src="../static/assets/js/departmentBar.js" defer></script>
 </head>
 
 <body>
-    
-    <a href="../templates/index.html">index</a>
-    <a href="../templates/referee.html">referee</a>
-    <a href="../templates/referer.html">referer</a>
-    <a href="../templates/fillform.html">fillform</a>
+    <div class="referee-container">
+        <div class="department-bar" id="department-bar">Department Bar
+            <div>NCKU-CSIE</div>
+            <div>NCKU-EE</div>
+            <div>NCKU-AA</div>
+        </div>
+        <div class="referee-form">
+            <h3>Referee School</h3>
+            <h2>School Name</h2>
+            <form method="POST">
+                <fieldset>Referer 1:
+                    <br>
+                    Name<input name="referer1-name"> Title<input name="referer1-title">
+                    <br>
+                    phone<input name="referer1-phone"> Title<input name="referer1-mail">
+                </fieldset>
+                <fieldset>Referer 2:
+                    <br>
+                    Name<input name="referer2-name"> Title<input name="referer2-title">
+                    <br>
+                    phone<input name="referer2-phone"> Title<input name="referer2-mail">
+                </fieldset>
+                <fieldset>Referer 3:
+                    <br>
+                    Name<input name="referer3-name"> Title<input name="referer3-title">
+                    <br>
+                    phone<input name="referer3-phone"> Title<input name="referer3-mail">
+                </fieldset>
+                <fieldset>Referer 4:
+                    <br>
+                    Name<input name="referer4-name"> Title<input name="referer4-title">
+                    <br>
+                    phone<input name="referer4-phone"> Title<input name="referer4-mail">
+                </fieldset>
+                <button> submit</button>
+            </form>
+
+        </div>
+    </div>
+    <footer>
+        <a href="../templates/index.html">index</a>
+        <a href="../templates/referee.html">referee</a>
+        <a href="../templates/referer.html">referer</a>
+        <a href="../templates/fillform.html">fillform</a>
+    </footer>
 </body>
 
 </html>

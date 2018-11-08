@@ -10,20 +10,46 @@ form {
     border-color: black;
     border-width:2px ;
     border-style: solid;
-    width:30%;
-    background:lightblue;
+    background:transparent;
+}
+textarea{
+    width:100%;
+}
+h3{
+    margin:2px;
 }
 input {
-    width:60%;
+
 }
 input[type='number'] {
     -moz-appearance: textfield;
 }
-.form-container{
+input[type='text'] {
+    width:50%;
+}
+.form-container {
     margin-top: 20%;
     margin-left:40%;
+    width:25%;
+    background:lightblue;
 }
-.page-container{
+.referer-container{
+    border-radius: 4px;
+    border-color: black;
+    border-width:2px ;
+    border-style: solid;
+    background-color:lightblue;
+    padding:0px;
+    margin-top:1%;
+    margin-left: 25%;
+    width:50%;
+    height:50%;
+}
+footer{
+    text-align: center;
+}
+.referee-container{
+    display: flex;
     border-radius: 4px;
     border-color: black;
     border-width:2px ;
@@ -31,9 +57,30 @@ input[type='number'] {
     background-color:lightblue;
     padding:0px;
     margin-left: 25%;
+    margin-top:1%;
     width:50%;
     height:50%;
 }
-footer{
-    text-align: center;
+.department-bar{
+    width:20%;
+    height:auto;
+    border-radius:4px;
+    border-color:black;
+    border-width:2px;
+    border-style: solid;
+    font-weight: 700;
+}
+.department-bar > div{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.referee-form{
+    margin-left:5%;
+    width:70%;
+    height:80%;
+    border-radius:4px;
+    border-color:black;
+    border-width:2px;
+    border-style: solid;
+
 }
