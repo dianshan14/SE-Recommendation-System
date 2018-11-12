@@ -4,6 +4,11 @@
         <title>Recommendation System</title>
         <meta charset="UTF-8" />
         <link rel="stylesheet" type="text/css" href="../static/assets/css/style.css">
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous" defer>
+        </script>
         <script src="../static/assets/js/referee.js" defer></script>
     </head>
 
@@ -27,11 +32,12 @@
                         <br>
                         Mail:<input id="referrer1-mail" name="referrer1-mail">
                         <br>
-                        <button id="referrer1" type="button" name="referrer1-save">Save</button>
-                        <button id="referrer1" type="button" name="referrer1-send">Send</button>
                         <div>State:</div>
+                        <button id="referrer1-save" type="button" name="referrer1-save">Save</button>
+                        <button id="referrer1-send" type="button" name="referrer1-send">Send</button>
+                        
                     </fieldset>
-                    <button>Send to Institude</button>
+                    <button id="submit">Submit to Institude</button>
                 </form>
                 <button id="logout">Logout</button>
             </div>

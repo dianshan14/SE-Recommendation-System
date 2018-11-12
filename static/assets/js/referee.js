@@ -13,7 +13,7 @@ let department={
     currentSchoolMail:'',
 };
 
-let Config={
+const Config={
     maxReferrer:1,
     maxDepartment:3,
     category:[
@@ -24,10 +24,6 @@ let Config={
     ]
 }
 
-let category=[
-
-];
-
 document.addEventListener('DOMContentLoaded',function(){
 
     appendLogout();
@@ -36,7 +32,18 @@ document.addEventListener('DOMContentLoaded',function(){
     for(item in received_json){
         addDepartment(department,received_json[item][`schoolName`],received_json[item][`schoolMail`]);
         appendDepartment(received_json[item]);
+        
     }
+    for(let i=1;i<=Config.maxReferrer;i++){
+        document.getElementById(`referrer${i}-save`).addEventListener("click",function(){
+            appendSave();
+        });
+        document.getElementById(`referrer${i}-send`).addEventListener("click",function(){
+            appendSend();
+        });
+    }
+    appendSubmit();
+
     department.currentSchoolName=document.getElementById('school-name').innerHTML;
     department.currentSchoolMail=document.getElementById('school-mail').innerHTML;
 });
@@ -74,11 +81,52 @@ function appendDepartment(newSchool){
         department.currentSchoolName=`${newSchool.schoolName}`;
         department.currentSchoolMail=`${newSchool.schoolMail}`;
         
-        setFieldEditable(department,newSchool.schoolName);
+        fillReferrerField();
+        //setFieldEditable(department,newSchool.schoolName);
     });
     document.getElementById("department-bar").appendChild(div);
     document.getElementById("school-name").innerHTML=newSchool.schoolName;
     document.getElementById("school-mail").innerHTML=newSchool.schoolMail;
+}
+function appendSave(button,department){
+    let currentSchoolName=document.getElementById("school-name").innerHTML;
+    console.log(currentSchoolName,`${button}`)
+    if (confirm(`Once you saved, you can not chnage data`)) {
+        console.log(department[currentSchoolName][`${button}`])
+        if(department[currentSchoolName][`${button}`][`editable`]==true){
+            let name=document.getElementById(`${button}-name`).innerHTML;
+            let title=document.getElementById(`${button}-title`).innerHTML;
+            let phone=document.getElementById(`${button}-phone`).innerHTML;
+            let mail=document.getElementById(`${button}-mail`).innerHTML;
+            document.getElementById(`${button}-name`).disabled=true;
+            document.getElementById(`${button}-title`).disabled=true;
+            document.getElementById(`${button}-phone`).disabled=true;
+            document.getElementById(`${button}-mail`).disabled=true;
+            document.getElementById(`${button}`).disabled=true;
+            
+            console.log(currentSchoolName);
+            department[currentSchoolName][`${button}`][`name`]=name;
+            department[currentSchoolName][`${button}`][`title`]=title;
+            department[currentSchoolName][`${button}`][`phone`]=phone;
+            department[currentSchoolName][`${button}`][`mail`]=mail;
+            console.log(department[currentSchoolName][`${button}`])
+            department[currentSchoolName][`${button}`][`editable`]=false;
+        }
+        else {
+            alert('already save!')
+        }
+    } else {
+        // Do nothing!
+    }
+}
+function appendSend(){
+
+}
+function appendSubmit(){
+
+}
+function fillReferrerField(){
+
 }
 //Add and render department to page
 function addDepartment(department,schoolName,schoolMail){
@@ -116,36 +164,18 @@ function saveDepartment(department){
 }
 
 function saveReferee(department){
-}
-
-function confirmSave(button,department){
-    let currentSchoolName=document.getElementById("school-name").innerHTML;
-    console.log(currentSchoolName,`${button}`)
-    if (confirm(`Once you saved, you can not chnage data`)) {
-        console.log(department[currentSchoolName][`${button}`])
-        if(department[currentSchoolName][`${button}`][`editable`]==true){
-            let name=document.getElementById(`${button}-name`).innerHTML;
-            let title=document.getElementById(`${button}-title`).innerHTML;
-            let phone=document.getElementById(`${button}-phone`).innerHTML;
-            let mail=document.getElementById(`${button}-mail`).innerHTML;
-            document.getElementById(`${button}-name`).disabled=true;
-            document.getElementById(`${button}-title`).disabled=true;
-            document.getElementById(`${button}-phone`).disabled=true;
-            document.getElementById(`${button}-mail`).disabled=true;
-            document.getElementById(`${button}`).disabled=true;
-            
-            console.log(currentSchoolName);
-            department[currentSchoolName][`${button}`][`name`]=name;
-            department[currentSchoolName][`${button}`][`title`]=title;
-            department[currentSchoolName][`${button}`][`phone`]=phone;
-            department[currentSchoolName][`${button}`][`mail`]=mail;
-            console.log(department[currentSchoolName][`${button}`])
-            department[currentSchoolName][`${button}`][`editable`]=false;
+    $.ajax({
+        url: 'id_validate.php',
+        type: 'GET',
+        data: {
+            user_name: $('#user_name').val()
+        },
+        error: function(xhr) {
+            alert('Ajax request 發生錯誤');
+        },
+        success: function(response) {
+            $('#msg_user_name').html(response);
+            $('#msg_user_name').fadeIn();
         }
-        else {
-            alert('already save!')
-        }
-    } else {
-        // Do nothing!
-    }
+    });
 }
