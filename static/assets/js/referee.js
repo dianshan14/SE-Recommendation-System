@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded',function(){
             appendSave(i);
         });
         document.getElementById(`referrer${i}-send`).addEventListener("click",function(){
-            appendSend();
+            appendSend(i);
         });
     }
     appendSubmit();
@@ -155,10 +155,42 @@ function appendSave(i){
         }
     }
 }
-function appendSend(){
+function appendSend(i){
+
+    let request={
+        index:i,
+        institute:Referee.selected.name
+    };
+
+    $.ajax({
+        url: 'change here',
+        type: 'POST',
+        data: JSON.stringify(request),
+        error: function(xhr) {
+            alert('Ajax request 發生錯誤');
+        },
+        success: function(response) {
+            alert('Success');
+        }
+    });
 
 }
 function appendSubmit(){
+    let request={
+        institute:Referee.selected.name
+    }
+
+    $.ajax({
+        url: 'change here',
+        type: 'POST',
+        data: JSON.stringify(request),
+        error: function(xhr) {
+            alert('Ajax request 發生錯誤');
+        },
+        success: function(response) {
+            alert('Success');
+        }
+    });
 
 }
 function fillReferrerField(department){
@@ -182,6 +214,10 @@ function fillReferrerField(department){
             if(department[`referrers`][i-1][`state`]==true){
                 $(`#referrer${i}-send`)[0].disabled=true;
                 $(`#referrer${i}-state`)[0].innerText='Success';
+            }
+            else{
+                $(`#referrer${i}-send`)[0].disabled=false;
+                $(`#referrer${i}-state`)[0].innerText='';
             }
         }
         else{
