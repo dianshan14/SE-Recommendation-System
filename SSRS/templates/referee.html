@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Recommendation System</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="../static/assets/css/style.css">
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous" defer>
+        </script>
+        <script src="../static/assets/js/referee.js" defer></script>
+    </head>
+
+    <body>
+        <div class="referee-container">
+            <div class="department-bar" id="department-bar">Department Bar
+                <button id="referral">Add school</button>
+            </div>
+            <div class="referee-form">
+                <h1>Referee School</h1>
+                <h2>School Name: <span id="school-name"></span></h2>
+                <h4>School Mail: <span id="school-mail"></span></h4>
+                <form method="POST">
+                    <fieldset>referrer 1:
+                        <br>
+                        Name:<input id="referrer1-name" name="referrer1-name">
+                        <br>
+                        Title:<input id="referrer1-title" name="referrer1-title">
+                        <br>
+                        Phone:<input id="referrer1-phone" name="referrer1-phone">
+                        <br>
+                        Mail:<input id="referrer1-mail" name="referrer1-mail">
+                        <br>
+                        <div>State:<span id="referrer1-state"></span></div>
+                        <button id="referrer1-save" type="button" name="referrer1-save">Save</button>
+                        <button id="referrer1-send" type="button" name="referrer1-send">Send</button>
+                        
+                    </fieldset>
+                    <button id="submit">Submit to Institude</button>
+                </form>
+                <button id="logout">Logout</button>
+            </div>
+        </div>
+        <footer>
+        </footer>
+    </body>
+</html>

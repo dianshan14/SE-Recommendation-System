@@ -69,7 +69,8 @@ def send():
             found = True
             break
     if not found:
-        return jsonify(success=False)
+        #return jsonify(success=False)
+        return abort(404)
 
     reminded_referrer = institute.referrers[data['index']-1]
     if send_reminding_mail(user, reminded_referrer) is True:
