@@ -92,13 +92,27 @@ function appendLogout(){
 //Append event listener for add department
 function appendReferral(){
     document.getElementById(`referral`).addEventListener('click',function(){
-        let newSchool={schoolName:'',schoolMail:''}
-        newSchool.schoolName=prompt(`Add the school that you want to refer`);
-        newSchool.schoolMail=prompt(`Add the school's mail`);
-        if((newSchool.schoolName!=null&&newSchool.schoolName!=``)&&
-            (newSchool.schoolMail!=null&&newSchool.schoolMail!=``)){
-            addDepartment(department,newSchool.schoolName,newSchool.schoolMail);
-            appendDepartment(newSchool);
+        let response={
+            institute:{
+                name:``,
+                mail:``,
+            },
+            referrers:[
+                {
+                    name:'',
+                    title:'',
+                    phone:'',
+                    mail:'',
+                    state:false
+                }
+            ],
+        };
+        response.institute.name=prompt(`Add the school that you want to refer`);
+        response.institute.mail=prompt(`Add the school's mail`);
+        if((response.institute.name!=null&&response.institute.name!=``)&&
+            (response.institute.mail!=null&&response.institute.mail!=``)){
+            let department=addDepartment(response.institute,response.referrers);
+            appendDepartment(department);
         }
         else alert('Name and Mail must not be empty!');
     });
@@ -149,7 +163,7 @@ function appendSave(button,department){
             department[currentSchoolName][`${button}`][`editable`]=false;
         }
         else {
-            alert('already save!')
+            alert('already save!');
         }
     } else {
         // Do nothing!
@@ -162,50 +176,50 @@ function appendSubmit(){
 
 }
 function fillReferrerField(department){
-    let editable=true;
+    let editable;
     console.log(department);
     for(let i=1;i<=Config.maxReferrer;i++){
         for(let item in Config.category){
-            $(`referrer${i}-${Config[`category`][item]}`)[0];
-
+            
             //item in department
             let data=department[`referrers`][i-1][Config[`category`][item]];
-            console.log(data);
             if(data!=''){
                 $(`#referrer${i}-${Config[`category`][item]}`)[0].value=data;
                 editable=false;
             }
         }
+        if(editable==false){
+            for(let item in Config.category){
+                $(`#referrer${i}-${Config[`category`][item]}`)[0].disabled=true;
+                $(`#referrer${i}-save`)[0].disabled=true;
+            }
+            if(department[`referrers`][i-1][`state`]==true){
+                $(`#referrer${i}-send`)[0].disabled=true;
+                $(`#referrer${i}-state`)[0].innerText='Success';
+            }
+        }
+        else{
+            for(let item in Config.category){
+                $(`#referrer${i}-${Config[`category`][item]}`)[0].disabled=false;
+                $(`#referrer${i}-save`)[0].disabled=false;
+            }
+        }
+        
     }
 
 }
 //Add and render department to page
 function addDepartment(institute,referrers){
-
     let department={
         name:institute.name,
         mail:institute.mail,
         referrers:referrers
     }
-    console.log(department);
     Referee.institute.push(department);
+    return department;
 }
 //set referrer field is editable or not
 function setFieldEditable(department,schoolName){
-    console.log(schoolName);
-    console.log(department[schoolName]);
-    /*
-    for(referrer in department[item]){
-        if(department[item][referrer].editable==true){
-            console.log(referrer)
-            document.getElementById(`${referrer}-name`).disabled=false;
-            document.getElementById(`${referrer}-title`).disabled=false;
-            document.getElementById(`${referrer}-phone`).disabled=false;
-            document.getElementById(`${referrer}-mail`).disabled=false;
-            document.getElementById(`${referrer}`).disabled=false;
-        }
-    }
-    */
 }
 
 function saveDepartment(department){
