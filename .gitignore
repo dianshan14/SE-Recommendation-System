@@ -2,3 +2,5 @@ SSRS/__pycache__
 SSRS/mail_test.py
 SSRS/config.cfg
 test.db
+SSRS/templates
+SSRS/static
