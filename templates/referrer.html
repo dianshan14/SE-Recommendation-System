@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Recommendation System</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="../static/assets/css/style.css">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous" defer>
+    </script>
+    <script src="../static/assets/js/referrer.js"></script>
+</head>
+
+<body>
+    <div class="referrer-container">
+        <h2>Recommendation Letter</h2>
+        <div>
+            <h3>Referee:</h3>
+        </div>
+        <form>
+            <br>
+            LeaderShip
+            <fieldset>
+                <input id="leadership" required type="radio" name="leadership" value="Very Good">Very Good
+                <input id="leadership" required type="radio" name="leadership" value="Good">Good
+                <input id="leadership" required type="radio" name="leadership" value="Normal">Normal
+                <input id="leadership" required type="radio" name="leadership" value="Bad">Bad
+                <input id="leadership" required type="radio" name="leadership" value="Very Bad">Very Bad
+            </fieldset>
+            Professional Knowledge
+            <fieldset>
+                <input id="profession" required type="radio" name="profession" value="Very Good">Very Good
+                <input id="profession" required type="radio" name="profession" value="Good">Good
+                <input id="profession" required type="radio" name="profession" value="Normal">Normal
+                <input id="profession" required type="radio" name="profession" value="Bad">Bad
+                <input id="profession" required type="radio" name="profession" value="Very Bad">Very Bad
+            </fieldset>
+            Cooperation
+            <fieldset>
+                <input id="cooperation" required type="radio" name="cooperation" value="Very Good">Very Good
+                <input id="cooperation" required type="radio" name="cooperation" value="Good">Good
+                <input id="cooperation" required type="radio" name="cooperation" value="Normal">Normal
+                <input id="cooperation" required type="radio" name="cooperation" value="Bad">Bad
+                <input id="cooperation" required type="radio" name="cooperation" value="Very Bad">Very Bad
+            </fieldset>
+            Oral Skill
+            <fieldset>
+                <input id="oral_skill" required type="radio" name="oral_skill" value="Very Good">Very Good
+                <input id="oral_skill" required type="radio" name="oral_skill" value="Good">Good
+                <input id="oral_skill" required type="radio" name="oral_skill" value="Normal">Normal
+                <input id="oral_skill" required type="radio" name="oral_skill" value="Bad">Bad
+                <input id="oral_skill" required type="radio" name="oral_skill" value="Very Bad">Very Bad
+            </fieldset>
+            Writing Skill
+            <fieldset>
+                <input id="writing_skill" required type="radio" name="writing_skill" value="Very Good">Very Good
+                <input id="writing_skill" required type="radio" name="writing_skill" value="Good">Good
+                <input id="writing_skill" required type="radio" name="writing_skill" value="Normal">Normal
+                <input id="writing_skill" required type="radio" name="writing_skill" value="Bad">Bad
+                <input id="writing_skill" required type="radio" name="writing_skill" value="Very Bad">Very Bad
+            </fieldset>
+            Recommendation content
+            <fieldset>
+                <textarea id="comment" name="comment" rows="15" required></textarea>
+            </fieldset>
+            <button type="button" id="submit">submit</button>
+            <button type="button" id="abort">Abort</button>
+            <br>
+        </form>
+    </div>
+    <footer>
+    </footer>
+</body>
+
+</html>
