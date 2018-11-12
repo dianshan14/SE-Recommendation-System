@@ -5,6 +5,11 @@
     <title>Recommendation System</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet" type="text/css" href="../static/assets/css/style.css">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous" defer>
+    </script>
     <script src="../static/assets/js/referrer.js"></script>
 </head>
 
@@ -18,49 +23,49 @@
             <br>
             LeaderShip
             <fieldset>
-                <input required type="radio" name="leadership" value="Very Good">Very Good
-                <input required type="radio" name="leadership" value="Good">Good
-                <input required type="radio" name="leadership" value="Normal">Normal
-                <input required type="radio" name="leadership" value="Bad">Bad
-                <input required type="radio" name="leadership" value="Very Bad">Very Bad
+                <input id="leadership" required type="radio" name="leadership" value="Very Good">Very Good
+                <input id="leadership" required type="radio" name="leadership" value="Good">Good
+                <input id="leadership" required type="radio" name="leadership" value="Normal">Normal
+                <input id="leadership" required type="radio" name="leadership" value="Bad">Bad
+                <input id="leadership" required type="radio" name="leadership" value="Very Bad">Very Bad
             </fieldset>
             Professional Knowledge
             <fieldset>
-                <input required type="radio" name="profession" value="Very Good">Very Good
-                <input required type="radio" name="profession" value="Good">Good
-                <input required type="radio" name="profession" value="Normal">Normal
-                <input required type="radio" name="profession" value="Bad">Bad
-                <input required type="radio" name="profession" value="Very Bad">Very Bad
+                <input id="profession" required type="radio" name="profession" value="Very Good">Very Good
+                <input id="profession" required type="radio" name="profession" value="Good">Good
+                <input id="profession" required type="radio" name="profession" value="Normal">Normal
+                <input id="profession" required type="radio" name="profession" value="Bad">Bad
+                <input id="profession" required type="radio" name="profession" value="Very Bad">Very Bad
             </fieldset>
             Cooperation
             <fieldset>
-                <input required type="radio" name="cooperation" value="Very Good">Very Good
-                <input required type="radio" name="cooperation" value="Good">Good
-                <input required type="radio" name="cooperation" value="Normal">Normal
-                <input required type="radio" name="cooperation" value="Bad">Bad
-                <input required type="radio" name="cooperation" value="Very Bad">Very Bad
+                <input id="cooperation" required type="radio" name="cooperation" value="Very Good">Very Good
+                <input id="cooperation" required type="radio" name="cooperation" value="Good">Good
+                <input id="cooperation" required type="radio" name="cooperation" value="Normal">Normal
+                <input id="cooperation" required type="radio" name="cooperation" value="Bad">Bad
+                <input id="cooperation" required type="radio" name="cooperation" value="Very Bad">Very Bad
             </fieldset>
             Oral Skill
             <fieldset>
-                <input required type="radio" name="oral_skill" value="Very Good">Very Good
-                <input required type="radio" name="oral_skill" value="Good">Good
-                <input required type="radio" name="oral_skill" value="Normal">Normal
-                <input required type="radio" name="oral_skill" value="Bad">Bad
-                <input required type="radio" name="oral_skill" value="Very Bad">Very Bad
+                <input id="oral_skill" required type="radio" name="oral_skill" value="Very Good">Very Good
+                <input id="oral_skill" required type="radio" name="oral_skill" value="Good">Good
+                <input id="oral_skill" required type="radio" name="oral_skill" value="Normal">Normal
+                <input id="oral_skill" required type="radio" name="oral_skill" value="Bad">Bad
+                <input id="oral_skill" required type="radio" name="oral_skill" value="Very Bad">Very Bad
             </fieldset>
             Writing Skill
             <fieldset>
-                <input required type="radio" name="writing_skill" value="Very Good">Very Good
-                <input required type="radio" name="writing_skill" value="Good">Good
-                <input required type="radio" name="writing_skill" value="Normal">Normal
-                <input required type="radio" name="writing_skill" value="Bad">Bad
-                <input required type="radio" name="writing_skill" value="Very Bad">Very Bad
+                <input id="writing_skill" required type="radio" name="writing_skill" value="Very Good">Very Good
+                <input id="writing_skill" required type="radio" name="writing_skill" value="Good">Good
+                <input id="writing_skill" required type="radio" name="writing_skill" value="Normal">Normal
+                <input id="writing_skill" required type="radio" name="writing_skill" value="Bad">Bad
+                <input id="writing_skill" required type="radio" name="writing_skill" value="Very Bad">Very Bad
             </fieldset>
             Recommendation content
             <fieldset>
-                <textarea name="comment" rows="15" required></textarea>
+                <textarea id="comment" name="comment" rows="15" required></textarea>
             </fieldset>
-            <button>submit</button>
+            <button type="button" id="submit">submit</button>
             <button type="button" id="abort">Abort</button>
             <br>
         </form>

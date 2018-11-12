@@ -1,3 +1,31 @@
+let request=`
+[
+	{ 
+		"institute":{
+            		"name": "ncku",
+            		"mail": "ncku@ncku.mail.com"    
+                },    
+		"referrers": [
+			{
+				"name": "hello",
+				"title": "pro",
+				"phone": "123456",
+				"mail": "123@mail",
+				"state": true
+			}
+		]
+    }
+]
+`
+
+let Referee={
+    institute:[],
+    selected:{
+        name:'',
+        mail:''
+    }
+};
+
 let received_json=[
     {
         schoolName:'ncku_csie',
@@ -8,6 +36,7 @@ let received_json=[
         schoolMail:'123'
     },
 ];
+
 let department={
     currentSchoolName:'',
     currentSchoolMail:'',
@@ -22,18 +51,24 @@ const Config={
         'phone',
         'mail',
     ]
-}
+};
 
 document.addEventListener('DOMContentLoaded',function(){
 
+    request=JSON.parse(request);
+    //Add requested item to Referee(object collection)
+    for(index in request){
+        console.log(request[index]);
+        addDepartment(request[index][`institute`],request[index][`referrers`]);
+    }
     appendLogout();
     appendReferral();
+
     //parse and append each of the department to page
-    for(item in received_json){
-        addDepartment(department,received_json[item][`schoolName`],received_json[item][`schoolMail`]);
-        appendDepartment(received_json[item]);
-        
+    for(index in Referee.institute){
+        appendDepartment(Referee.institute[index]);
     }
+
     for(let i=1;i<=Config.maxReferrer;i++){
         document.getElementById(`referrer${i}-save`).addEventListener("click",function(){
             appendSave();
@@ -68,25 +103,26 @@ function appendReferral(){
         else alert('Name and Mail must not be empty!');
     });
 }
-function appendDepartment(newSchool){
+function appendDepartment(department){
 
-    let div=document.createElement("div");
-    div.innerHTML=`${newSchool.schoolName}`;
-    div.setAttribute(`id`,`${newSchool.schoolName}`);
+    console.log(department);
+    let appendDiv=document.createElement("div");
+    appendDiv.innerHTML=department.name;
+    appendDiv.setAttribute(`id`,department.name);
 
-    div.addEventListener('click',function(){
+    appendDiv.addEventListener('click',function(){
 
-        document.getElementById("school-name").innerHTML=`${newSchool.schoolName}`;
-        document.getElementById("school-mail").innerHTML=`${newSchool.schoolMail}`;
-        department.currentSchoolName=`${newSchool.schoolName}`;
-        department.currentSchoolMail=`${newSchool.schoolMail}`;
+        document.getElementById("school-name").innerHTML=department.name;
+        document.getElementById("school-mail").innerHTML=department.mail;
+        Referee.selected.name=department.name;
+        Referee.selected.mail=department.mail;
         
-        fillReferrerField();
+        fillReferrerField(department);
         //setFieldEditable(department,newSchool.schoolName);
     });
-    document.getElementById("department-bar").appendChild(div);
-    document.getElementById("school-name").innerHTML=newSchool.schoolName;
-    document.getElementById("school-mail").innerHTML=newSchool.schoolMail;
+    document.getElementById("department-bar").appendChild(appendDiv);
+    document.getElementById("school-name").innerHTML=department.name;
+    document.getElementById("school-mail").innerHTML=department.mail;
 }
 function appendSave(button,department){
     let currentSchoolName=document.getElementById("school-name").innerHTML;
@@ -125,22 +161,34 @@ function appendSend(){
 function appendSubmit(){
 
 }
-function fillReferrerField(){
+function fillReferrerField(department){
+    let editable=true;
+    console.log(department);
+    for(let i=1;i<=Config.maxReferrer;i++){
+        for(let item in Config.category){
+            $(`referrer${i}-${Config[`category`][item]}`)[0];
+
+            //item in department
+            let data=department[`referrers`][i-1][Config[`category`][item]];
+            console.log(data);
+            if(data!=''){
+                $(`#referrer${i}-${Config[`category`][item]}`)[0].value=data;
+                editable=false;
+            }
+        }
+    }
 
 }
 //Add and render department to page
-function addDepartment(department,schoolName,schoolMail){
-    //ex: schoolName='123'
-    //department[123]={}
-    department[`${schoolName}`]={};
-    for(let i=1;i<=Config.maxReferrer;i++){
-        for(categoryItem in Config.category){
-            //department[123][referrer1-mail]=''
-            department[`${schoolName}`][`referrer${i}-${Config[`category`][categoryItem]}`]='';
-        }
-        department[`${schoolName}`][`editable`]=true;
-        department[`${schoolName}`][`mail`]=schoolMail;
+function addDepartment(institute,referrers){
+
+    let department={
+        name:institute.name,
+        mail:institute.mail,
+        referrers:referrers
     }
+    console.log(department);
+    Referee.institute.push(department);
 }
 //set referrer field is editable or not
 function setFieldEditable(department,schoolName){
@@ -174,8 +222,6 @@ function saveReferee(department){
             alert('Ajax request 發生錯誤');
         },
         success: function(response) {
-            $('#msg_user_name').html(response);
-            $('#msg_user_name').fadeIn();
         }
     });
 }
