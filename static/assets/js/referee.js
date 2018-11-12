@@ -26,22 +26,6 @@ let Referee={
     }
 };
 
-let received_json=[
-    {
-        schoolName:'ncku_csie',
-        schoolMail:'123'
-    },
-    {
-        schoolName:'ncku_ee',
-        schoolMail:'123'
-    },
-];
-
-let department={
-    currentSchoolName:'',
-    currentSchoolMail:'',
-};
-
 const Config={
     maxReferrer:1,
     maxDepartment:3,
@@ -71,7 +55,7 @@ document.addEventListener('DOMContentLoaded',function(){
 
     for(let i=1;i<=Config.maxReferrer;i++){
         document.getElementById(`referrer${i}-save`).addEventListener("click",function(){
-            appendSave();
+            appendSave(i);
         });
         document.getElementById(`referrer${i}-send`).addEventListener("click",function(){
             appendSend();
@@ -79,8 +63,6 @@ document.addEventListener('DOMContentLoaded',function(){
     }
     appendSubmit();
 
-    department.currentSchoolName=document.getElementById('school-name').innerHTML;
-    department.currentSchoolMail=document.getElementById('school-mail').innerHTML;
 });
 
 //Append event listener for logout
@@ -119,7 +101,6 @@ function appendReferral(){
 }
 function appendDepartment(department){
 
-    console.log(department);
     let appendDiv=document.createElement("div");
     appendDiv.innerHTML=department.name;
     appendDiv.setAttribute(`id`,department.name);
@@ -132,41 +113,46 @@ function appendDepartment(department){
         Referee.selected.mail=department.mail;
         
         fillReferrerField(department);
-        //setFieldEditable(department,newSchool.schoolName);
     });
     document.getElementById("department-bar").appendChild(appendDiv);
     document.getElementById("school-name").innerHTML=department.name;
     document.getElementById("school-mail").innerHTML=department.mail;
 }
-function appendSave(button,department){
-    let currentSchoolName=document.getElementById("school-name").innerHTML;
-    console.log(currentSchoolName,`${button}`)
-    if (confirm(`Once you saved, you can not chnage data`)) {
-        console.log(department[currentSchoolName][`${button}`])
-        if(department[currentSchoolName][`${button}`][`editable`]==true){
-            let name=document.getElementById(`${button}-name`).innerHTML;
-            let title=document.getElementById(`${button}-title`).innerHTML;
-            let phone=document.getElementById(`${button}-phone`).innerHTML;
-            let mail=document.getElementById(`${button}-mail`).innerHTML;
-            document.getElementById(`${button}-name`).disabled=true;
-            document.getElementById(`${button}-title`).disabled=true;
-            document.getElementById(`${button}-phone`).disabled=true;
-            document.getElementById(`${button}-mail`).disabled=true;
-            document.getElementById(`${button}`).disabled=true;
-            
-            console.log(currentSchoolName);
-            department[currentSchoolName][`${button}`][`name`]=name;
-            department[currentSchoolName][`${button}`][`title`]=title;
-            department[currentSchoolName][`${button}`][`phone`]=phone;
-            department[currentSchoolName][`${button}`][`mail`]=mail;
-            console.log(department[currentSchoolName][`${button}`])
-            department[currentSchoolName][`${button}`][`editable`]=false;
+function appendSave(i){
+
+    if(confirm(`Once you saved, you can not chnage data`)) {
+        for(index in Referee.institute){
+            if(Referee[`institute`][index][`name`]==Referee.selected.name)
+            {
+                let x={};
+                for(item in Config.category)
+                    x[Config[`category`][item]]=$(`#referrer${i}-${[Config[`category`][item]]}`)[0].value;
+                console.log(x);
+
+                Referee[`institute`][index][`referrers`][i-1]=x;
+
+                let request={
+                    institute_name: Referee[`institute`][index][`name`],
+                    institute_mail: Referee[`institute`][index][`mail`],
+                    referrers:Referee[`institute`][index][`referrers`],
+                }
+                console.log(request);
+
+                $.ajax({
+                    url: 'change here',
+                    type: 'POST',
+                    data: JSON.stringify(request),
+                    error: function(xhr) {
+                        alert('Ajax request 發生錯誤');
+                    },
+                    success: function(response) {
+                        alert('Success');
+                    }
+                });
+
+                fillReferrerField(Referee[`institute`][index]);
+            }
         }
-        else {
-            alert('already save!');
-        }
-    } else {
-        // Do nothing!
     }
 }
 function appendSend(){
@@ -217,25 +203,4 @@ function addDepartment(institute,referrers){
     }
     Referee.institute.push(department);
     return department;
-}
-//set referrer field is editable or not
-function setFieldEditable(department,schoolName){
-}
-
-function saveDepartment(department){
-}
-
-function saveReferee(department){
-    $.ajax({
-        url: 'id_validate.php',
-        type: 'GET',
-        data: {
-            user_name: $('#user_name').val()
-        },
-        error: function(xhr) {
-            alert('Ajax request 發生錯誤');
-        },
-        success: function(response) {
-        }
-    });
 }
