@@ -1,81 +1,42 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <title>Recommendation System</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="../static/assets/css/style.css">
+        <script src="../static/assets/js/referee.js" defer></script>
+    </head>
 
-<head>
-    <title>Recommendation System</title>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" type="text/css" href="../static/assets/css/style.css">
-    <script src="../static/assets/js/index.js"></script>
-    <script src="../static/assets/js/referee.js" defer></script>
-</head>
-
-<body>
-    <div class="referee-container">
-        <div class="department-bar" id="department-bar">Department Bar
+    <body>
+        <div class="referee-container">
+            <div class="department-bar" id="department-bar">Department Bar
+                <button id="referral">Add school</button>
+            </div>
+            <div class="referee-form">
+                <h1>Referee School</h1>
+                <h2>School Name: <span id="school-name"></span></h2>
+                <h4>School Mail: <span id="school-mail"></span></h4>
+                <form method="POST">
+                    <fieldset>referrer 1:
+                        <br>
+                        Name:<input id="referrer1-name" name="referrer1-name">
+                        <br>
+                        Title:<input id="referrer1-title" name="referrer1-title">
+                        <br>
+                        Phone:<input id="referrer1-phone" name="referrer1-phone">
+                        <br>
+                        Mail:<input id="referrer1-mail" name="referrer1-mail">
+                        <br>
+                        <button id="referrer1" type="button" name="referrer1-save">Save</button>
+                        <button id="referrer1" type="button" name="referrer1-send">Send</button>
+                        <div>State:</div>
+                    </fieldset>
+                    <button>Send to Institude</button>
+                </form>
+                <button id="logout">Logout</button>
+            </div>
         </div>
-        <div class="referee-form">
-            <h3>Referee School</h3>
-            <h2>School Name: <span id="school-name"></span></h2>
-            <form method="POST">
-                <fieldset>Referer 1:
-                    <br>
-                    Name<input id="referer1-name" name="referer1-name">
-                    <br>
-                    Title<input id="referer1-title" name="referer1-title">
-                    <br>
-                    Phone<input id="referer1-phone" name="referer1-phone">
-                    <br>
-                    Mail<input id="referer1-mail" name="referer1-mail">
-                    <br>
-                    <button id="referer1" type="button" name="referer1">Save</button>
-                </fieldset>
-                <fieldset>Referer 2:
-                    <br>
-                    Name<input id="referer2-name" name="referer2-name">
-                    <br>
-                    Title<input id="referer2-title" name="referer2-title">
-                    <br>
-                    Phone<input id="referer2-phone" name="referer2-phone">
-                    <br>
-                    Mail<input id="referer2-mail" name="referer2-mail">
-                    <br>
-                    <button id="referer2" type="button" name="referer2">Save</button>
-                </fieldset>
-                <fieldset>Referer 3:
-                    <br>
-                    Name<input id="referer3-name" name="referer3-name">
-                    <br>
-                    Title<input id="referer3-title" name="referer3-title">
-                    <br>
-                    Phone<input id="referer3-phone" name="referer3-phone">
-                    <br>
-                    Mail<input id="referer3-mail" name="referer3-mail">
-                    <br>
-                    <button id="referer3" type="button" name="referer3">Save</button>
-                </fieldset>
-                <fieldset>Referer 4:
-                    <br>
-                    Name<input id="referer4-name" name="referer4-name">
-                    <br>
-                    Title<input id="referer4-title" name="referer4-title">
-                    <br>
-                    Phone<input id="referer4-phone" name="referer4-phone">
-                    <br>
-                    Mail<input id="referer4-mail" name="referer4-mail">
-                    <br>
-                    <button id="referer4" type="button" name="referer4">Save</button>
-                </fieldset>
-                <button>Submit</button>
-            </form>
-
-        </div>
-    </div>
-    <footer>
-        <a href="../templates/index.html">index</a>
-        <a href="../templates/referee.html">referee</a>
-        <a href="../templates/referer.html">referer</a>
-        <a href="../templates/fillform.html">fillform</a>
-    </footer>
-</body>
-
+        <footer>
+        </footer>
+    </body>
 </html>

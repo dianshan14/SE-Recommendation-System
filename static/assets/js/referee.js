@@ -1,52 +1,129 @@
-let department=[
-    'ncku_csie',
-    'ncku_ee',
+let received_json=[
+    {
+        schoolName:'ncku_csie',
+        schoolMail:'123'
+    },
+    {
+        schoolName:'ncku_ee',
+        schoolMail:'123'
+    },
+];
+let department={
+    currentSchoolName:'',
+    currentSchoolMail:'',
+};
+
+let Config={
+    maxReferrer:1,
+    maxDepartment:3,
+    category:[
+        'name',
+        'title',
+        'phone',
+        'mail',
+    ]
+}
+
+let category=[
+
 ];
 
 document.addEventListener('DOMContentLoaded',function(){
 
-    department=parseData(department);
-    addDepartment(department);
-    saveReferee(department);
-})
-function parseData(department){
-    let x={};
-    for(item in department){
-        console.log(department[item]);
-        x[department[item]]={};
-        x[department[item]].referer1={name:'',title:'',phone:'',mail:'',editable:true};
-        x[department[item]].referer2={name:'',title:'',phone:'',mail:'',editable:true};
-        x[department[item]].referer3={name:'',title:'',phone:'',mail:'',editable:true};
-        x[department[item]].referer4={name:'',title:'',phone:'',mail:'',editable:true};
+    appendLogout();
+    appendReferral();
+    //parse and append each of the department to page
+    for(item in received_json){
+        addDepartment(department,received_json[item][`schoolName`],received_json[item][`schoolMail`]);
+        appendDepartment(received_json[item]);
     }
-    delete department;
-    return x;
+    department.currentSchoolName=document.getElementById('school-name').innerHTML;
+    department.currentSchoolMail=document.getElementById('school-mail').innerHTML;
+});
+
+//Append event listener for logout
+function appendLogout(){
+    document.getElementById("logout").addEventListener("click",function(){
+        window.location.href = `./index.html`;
+    });
+}
+//Append event listener for add department
+function appendReferral(){
+    document.getElementById(`referral`).addEventListener('click',function(){
+        let newSchool={schoolName:'',schoolMail:''}
+        newSchool.schoolName=prompt(`Add the school that you want to refer`);
+        newSchool.schoolMail=prompt(`Add the school's mail`);
+        if((newSchool.schoolName!=null&&newSchool.schoolName!=``)&&
+            (newSchool.schoolMail!=null&&newSchool.schoolMail!=``)){
+            addDepartment(department,newSchool.schoolName,newSchool.schoolMail);
+            appendDepartment(newSchool);
+        }
+        else alert('Name and Mail must not be empty!');
+    });
+}
+function appendDepartment(newSchool){
+
+    let div=document.createElement("div");
+    div.innerHTML=`${newSchool.schoolName}`;
+    div.setAttribute(`id`,`${newSchool.schoolName}`);
+
+    div.addEventListener('click',function(){
+
+        document.getElementById("school-name").innerHTML=`${newSchool.schoolName}`;
+        document.getElementById("school-mail").innerHTML=`${newSchool.schoolMail}`;
+        department.currentSchoolName=`${newSchool.schoolName}`;
+        department.currentSchoolMail=`${newSchool.schoolMail}`;
+        
+        setFieldEditable(department,newSchool.schoolName);
+    });
+    document.getElementById("department-bar").appendChild(div);
+    document.getElementById("school-name").innerHTML=newSchool.schoolName;
+    document.getElementById("school-mail").innerHTML=newSchool.schoolMail;
+}
+//Add and render department to page
+function addDepartment(department,schoolName,schoolMail){
+    //ex: schoolName='123'
+    //department[123]={}
+    department[`${schoolName}`]={};
+    for(let i=1;i<=Config.maxReferrer;i++){
+        for(categoryItem in Config.category){
+            //department[123][referrer1-mail]=''
+            department[`${schoolName}`][`referrer${i}-${Config[`category`][categoryItem]}`]='';
+        }
+        department[`${schoolName}`][`editable`]=true;
+        department[`${schoolName}`][`mail`]=schoolMail;
+    }
+}
+//set referrer field is editable or not
+function setFieldEditable(department,schoolName){
+    console.log(schoolName);
+    console.log(department[schoolName]);
+    /*
+    for(referrer in department[item]){
+        if(department[item][referrer].editable==true){
+            console.log(referrer)
+            document.getElementById(`${referrer}-name`).disabled=false;
+            document.getElementById(`${referrer}-title`).disabled=false;
+            document.getElementById(`${referrer}-phone`).disabled=false;
+            document.getElementById(`${referrer}-mail`).disabled=false;
+            document.getElementById(`${referrer}`).disabled=false;
+        }
+    }
+    */
 }
 
-function addDepartment(department){
-
-    for(item in department){
-        let div=document.createElement("div");
-        div.innerHTML=`${item}`;
-        div.addEventListener('click',function(){
-            document.getElementById("school-name").innerHTML=`${div.innerHTML}`;
-            department.currentSchool=`${div.innerHTML}`;
-        });
-        document.getElementById("department-bar").appendChild(div);
-        document.getElementById("school-name").innerHTML=`${div.innerHTML}`;
-    }
-
+function saveDepartment(department){
 }
+
 function saveReferee(department){
-    for(let i=1;i<=4;i++){
-        document.getElementById(`referer${i}`).addEventListener('click',function(){
-            confirmSave(`referer${i}`,department);
-        });
-    }
 }
+
 function confirmSave(button,department){
+    let currentSchoolName=document.getElementById("school-name").innerHTML;
+    console.log(currentSchoolName,`${button}`)
     if (confirm(`Once you saved, you can not chnage data`)) {
-        if(editable===true){
+        console.log(department[currentSchoolName][`${button}`])
+        if(department[currentSchoolName][`${button}`][`editable`]==true){
             let name=document.getElementById(`${button}-name`).innerHTML;
             let title=document.getElementById(`${button}-title`).innerHTML;
             let phone=document.getElementById(`${button}-phone`).innerHTML;
@@ -56,14 +133,14 @@ function confirmSave(button,department){
             document.getElementById(`${button}-phone`).disabled=true;
             document.getElementById(`${button}-mail`).disabled=true;
             document.getElementById(`${button}`).disabled=true;
-    
-            let currentSchool=document.getElementById("school-name").innerHTML;
-            console.log(currentSchool);
-            department[currentSchool][`${button}`][`name`]=name;
-            department[currentSchool][`${button}`][`title`]=title;
-            department[currentSchool][`${button}`][`phone`]=phone;
-            department[currentSchool][`${button}`][`mail`]=mail;
-            department[currentSchool][`${button}`][`editable`]=false;
+            
+            console.log(currentSchoolName);
+            department[currentSchoolName][`${button}`][`name`]=name;
+            department[currentSchoolName][`${button}`][`title`]=title;
+            department[currentSchoolName][`${button}`][`phone`]=phone;
+            department[currentSchoolName][`${button}`][`mail`]=mail;
+            console.log(department[currentSchoolName][`${button}`])
+            department[currentSchoolName][`${button}`][`editable`]=false;
         }
         else {
             alert('already save!')
