@@ -10,56 +10,6 @@ from SSRS.model import db, User
 
 bp = Blueprint('referee', __name__, url_prefix='/referee')
 
-# return recommender infoes
-@bp.route('/get_referrers/<institute_name>', methods=['GET'])
-@force_login('referee.get_referrers')
-def get_referrers(institute_name):
-    referrers = None
-    referrers_data = dict()
-    user = User.query.filter_by(id=g.user.id).first()
-    for institute in user.institutes:
-        if institute.title == institute_name:
-            referrers = institute.recommenders
-            break
-
-    for i, referrer in enumerate(referrers):
-        index = 'referrer' + str(i)
-        referrers_data[index] = dict()
-        referrers_data[index][index+'-name'] = referrer.name
-        referrers_data[index][index+'-title'] = referrer.title
-        referrers_data[index][index+'-phone'] = referrer.phone
-        referrers_data[index][index+'-mail'] = referrer.mail
-        referrers_data[index][index+'-state'] = referrer.state
-
-    return jsonify(referrers=referrers_data)
-
-# send remind mail
-@bp.route('/remind/<int:order>', methods=['POST'])
-@force_login('referee.remind')
-def remind(order):
-    user = User.query.filter_by(id=g.user.id).first()
-    try:
-        reminded_rcmder = user.recommenders[order]
-    except:
-        return Response('Fail reminding')
-
-    send_reminding_mail(reminded_rcmder)
-    return Response('Success reminding')
-
-# commit to institute
-@bp.route('commit', methods=['POST'])
-@force_login('referee.commit')
-def commit():
-
-    return Response('Commit')
-
-
-# add school name
-@bp.route('add_school', methods=['POST'])
-def add():
-
-    return Response('add')
-
 # get rendered data
 @bp.route('/get_full_data', methods=['GET'])
 @force_login('referee.get_full_data')
@@ -119,10 +69,11 @@ def send():
             found = True
             break
     if not found:
-        return jsonify(success=False)
+        #return jsonify(success=False)
+        return abort(404)
 
     reminded_referrer = institute.referrers[data['index']-1]
-    if send_reminding_mail(reminded_referrer) is True:
+    if send_reminding_mail(user, reminded_referrer) is True:
         print('remind success')
         return jsonify(success=True)
     else:
@@ -133,26 +84,73 @@ def send():
 @force_login('referee.submit')
 def submit():
     data = request.get_json()
-    user = User.query.filter_by(id=g.use.id).first()
+    user = User.query.filter_by(id=g.user.id).first()
     for inst in user.institutes:
         if inst.title == data['institute']:
             if send_institute_mail(inst) is True:
                 return jsonify(success=True)
             else:
                 return jsonify(success=False)
+    return jsonify(success=False)
 
-def send_reminding_mail(referrer):
+def send_reminding_mail(user, referrer):
     """
-        url: /referrer/<referrer_id>
+        url: /referrer/submit/<referrer_id>
     """
-    pass
-    receiver = [referrer.mail]
-    mail_content = 'Hello, ' + name + ' ' + title + ':'
-    # TODO
-    recommend_url = 'url'
+    try:
+        recommend_url = request.url_root + 'referrer/submit/' + str(referrer.id)
+        mail_content = '''
+        %s%s 您好:
+        學生 %s 邀請您撰寫推薦信，
+
+        請點擊以下網址，即可進入撰寫推薦信畫面！
+        %s
+        ''' % (referrer.name, referrer.title, user.name, recommend_url)
+
+        receiver_name = referrer.name + referrer.title
+        send_mail([referrer.mail], mail_content, receiver_name)
+        return True
+    except Exception as e:
+        print('Failure to send mail')
+        print(e)
+        return False
 
 def send_institute_mail(institute):
-    pass
+    try:
+        mail_content = '''
+        %s 您好，這是關於 %s 之所有推薦信內容：
+
+
+        '''
+
+        for referrer in institute.referrers:
+            mail_content += '推薦人: ' + referrer.name + referrer.title + '\n'
+            mail_content += '聯絡電話: ' + referrer.phone + '\n'
+            mail_content += 'E-mail: ' + referrer.mail + '\n'
+
+            content = referrer.contents[0]
+            field = referrer.contents[0].fields[0]
+
+            mail_content += '''
+            推薦內容:
+                專業能力: %s
+                口語能力: %s
+                寫作能力: %s
+                領導力  : %s
+                合作能力: %s
+                評論    : %s
+
+
+            ''' % (field.profession, field.oral_skill,
+                   field.writing_skill, field.ledaership,
+                   field.cooperation, content.comment)
+
+        receiver_name = institute.title
+        send_mail([institute.mail], mail_content, receiver_name)
+        return True
+    except:
+        print('Failure to send mail')
+        return False
 
 def send_mail(receivers, mail_content, message_to_name):
     subject = '推薦信撰寫邀請'

@@ -20,7 +20,7 @@ def register():
         telephone_number = request.form['telephone_number']
         mail = request.form['mail']
         phone_number = request.form['phone_number']
-        sid = request.form['sid']
+        sid = request.form['SID']
         birthday = request.form['birthday']
 
         error_msg = None
@@ -41,7 +41,7 @@ def register():
                             telephone_number=request.form['telephone_number'],
                             mail=request.form['mail'],
                             phone_number=request.form['phone_number'],
-                            sid=request.form['sid'],
+                            sid=request.form['SID'],
                             birthday = request.form['birthday'])
             db.session.add(new_user)
             db.session.commit()
@@ -69,11 +69,12 @@ def login():
             endpoint = session.get('next', 'index')
             session.clear()
             session['user_id'] = user.id
-            return redirect(url_for(endpoint, sheet_id=request.args.get('sheet_id')))
+            print('login')
+            return render_template('referee.html')
 
         flash(error_msg)
 
-    return render_template('login.html', login='menu-active')
+    return render_template('index.html', login='menu-active')
 
 @bp.before_app_request
 def load_logging_in_user_data():

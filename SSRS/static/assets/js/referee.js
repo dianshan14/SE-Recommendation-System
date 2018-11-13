@@ -1,10 +1,10 @@
 let request=`
 [
-	{ 
+	{
 		"institute":{
             		"name": "ncku",
-            		"mail": "ncku@ncku.mail.com"    
-                },    
+            		"mail": "ncku@ncku.mail.com"
+                },
 		"referrers": [
 			{
 				"name": "hello",
@@ -114,7 +114,7 @@ function appendDepartment(department){
         document.getElementById("school-mail").innerHTML=department.mail;
         Referee.selected.name=department.name;
         Referee.selected.mail=department.mail;
-        
+
         fillReferrerField(department);
     });
     document.getElementById("department-bar").appendChild(appendDiv);
@@ -142,7 +142,7 @@ function appendSave(i){
                 console.log(request);
 
                 $.ajax({
-                    url: 'change here',
+                    url: '/referee/save',
                     type: 'POST',
                     data: JSON.stringify(request),
                     error: function(xhr) {
@@ -166,7 +166,7 @@ function appendSend(i){
     };
 
     $.ajax({
-        url: 'change here',
+        url: '/referee/send',
         type: 'POST',
         data: JSON.stringify(request),
         error: function(xhr) {
@@ -184,7 +184,7 @@ function appendSubmit(){
     }
 
     $.ajax({
-        url: 'change here',
+        url: '/referee/submit',
         type: 'POST',
         data: JSON.stringify(request),
         error: function(xhr) {
@@ -201,7 +201,7 @@ function fillReferrerField(department){
     console.log(department);
     for(let i=1;i<=Config.maxReferrer;i++){
         for(let item in Config.category){
-            
+
             //item in department
             let data=department[`referrers`][i-1][Config[`category`][item]];
             if(data!=''){
@@ -229,7 +229,7 @@ function fillReferrerField(department){
                 $(`#referrer${i}-save`)[0].disabled=false;
             }
         }
-        
+
     }
 
 }

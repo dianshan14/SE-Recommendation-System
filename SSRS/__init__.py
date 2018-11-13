@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g, request, Response, jsonify
+from flask import Flask, render_template, g, request, Response, jsonify, redirect, url_for
 
 from SSRS.model import db
 
@@ -9,9 +9,11 @@ def create_app():
 
     db.init_app(app)
 
+    from .referee import send_reminding_mail
+
     @app.route('/')
     def index():
-        return Response('work')
+        return redirect(url_for('auth.login'))
 
     from . import auth
     app.register_blueprint(auth.bp)
