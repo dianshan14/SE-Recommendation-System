@@ -10,6 +10,7 @@ bp = Blueprint('referrer', __name__, url_prefix='/referrer')
 # Redirect from email content, and route recommender to page that can fill out data
 @bp.route('/submit/<referrer_id>', methods=['POST', 'GET'])
 def submit(referrer_id):
+    # TODO: if referrer non-existent previously, error occur
     referrer = Referrer.query.filter_by(id=int(referrer_id)).first()
     if referrer.state is True:
         return render_template('finish.html')
