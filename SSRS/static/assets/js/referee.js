@@ -39,33 +39,42 @@ const Config={
 
 document.addEventListener('DOMContentLoaded',function(){
 
-    request=JSON.parse(request);
-    //Add requested item to Referee(object collection)
-    for(index in request){
-        console.log(request[index]);
-        addDepartment(request[index][`institute`],request[index][`referrers`]);
-    }
-    appendLogout();
-    appendReferral();
+	$.ajax({
+		url: '/referee/get_full_data',
+		type: 'GET',
+		error: function(response){
+			alert('Ajax error');
+			window.location.href = `/auth/login`
+		},
+		success: function(response){
+			request=response;
+			console.log(request)
+			//Add requested item to Referee(object collection)
+			for(index in request){
+				console.log(request[index]);
+				addDepartment(request[index][`institute`],request[index][`referrers`]);
+			}
+			appendLogout();
+			appendReferral();
 
-    //parse and append each of the department to page
-    for(index in Referee.institute){
-        appendDepartment(Referee.institute[index]);
-    }
+			//parse and append each of the department to page
+			for(index in Referee.institute){
+				appendDepartment(Referee.institute[index]);
+			}
 
-    for(let i=1;i<=Config.maxReferrer;i++){
-        document.getElementById(`referrer${i}-save`).addEventListener("click",function(){
-            appendSave(i);
-        });
-        document.getElementById(`referrer${i}-send`).addEventListener("click",function(){
-            appendSend(i);
-        });
-    }
-    document.getElementById(`submit`).addEventListener("click",function(){
-        appendSubmit();
-    });
-
-
+			for(let i=1;i<=Config.maxReferrer;i++){
+				document.getElementById(`referrer${i}-save`).addEventListener("click",function(){
+					appendSave(i);
+				});
+				document.getElementById(`referrer${i}-send`).addEventListener("click",function(){
+					appendSend(i);
+				});
+			}
+			document.getElementById(`submit`).addEventListener("click",function(){
+				appendSubmit();
+			});
+		}
+	})
 });
 
 //Append event listener for logout
@@ -118,13 +127,11 @@ function appendDepartment(department){
         fillReferrerField(department);
     });
     document.getElementById("department-bar").appendChild(appendDiv);
-    document.getElementById("school-name").innerHTML=department.name;
-    document.getElementById("school-mail").innerHTML=department.mail;
 }
 function appendSave(i){
 
     if(confirm(`Once you saved, you can not chnage data`)) {
-        for(index in Referee.institute){
+		for(index in Referee.institute){
             if(Referee[`institute`][index][`name`]==Referee.selected.name)
             {
                 let x={};
@@ -140,11 +147,17 @@ function appendSave(i){
                     referrers:Referee[`institute`][index][`referrers`],
                 }
                 console.log(request);
-
+				if(request.referrers[0].name==''||
+						request.referrers[0].title==''||request.referrers[0].phone==''||request.referrers[0].mail=='')
+				{
+					alert(`Field can't be empty!`);
+					break;
+				}
                 $.ajax({
                     url: '/referee/save',
                     type: 'POST',
                     data: JSON.stringify(request),
+					contentType: 'application/json',
                     error: function(xhr) {
                         alert('Ajax request 發生錯誤');
                     },
@@ -169,6 +182,7 @@ function appendSend(i){
         url: '/referee/send',
         type: 'POST',
         data: JSON.stringify(request),
+		contentType: 'application/json',
         error: function(xhr) {
             alert('Ajax request 發生錯誤');
         },
@@ -187,6 +201,7 @@ function appendSubmit(){
         url: '/referee/submit',
         type: 'POST',
         data: JSON.stringify(request),
+		contentType: 'application/json',
         error: function(xhr) {
             alert('Ajax request 發生錯誤');
         },

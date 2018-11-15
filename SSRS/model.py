@@ -21,7 +21,7 @@ class User(db.Model):
     degrees = db.relationship('Degree', backref='users')
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<User {}>'.format(self.name)
 
 class Degree(db.Model):
     __tablename__ = 'degree'
@@ -34,7 +34,7 @@ class Degree(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('sys_user.id'))
 
     def __repr__(self):
-        return '<Degree {}>'.format(self.username)
+        return '<Degree {}>'.format(self.id)
 
 class Institute(db.Model):
     __tablename__ = 'institute'
@@ -48,7 +48,7 @@ class Institute(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('sys_user.id'))
 
     def __repr__(self):
-        return '<Institute {}>'.format(self.username)
+        return '<Institute {}>'.format(self.title)
 
 class Referrer(db.Model):
     __tablename__ = 'referrer'
@@ -65,7 +65,7 @@ class Referrer(db.Model):
     institute_id = db.Column(db.Integer, db.ForeignKey('institute.id'))
 
     def __repr__(self):
-        return '<Referrer {}>'.format(self.username)
+        return '<Referrer {}>'.format(self.name)
 
 class Content(db.Model):
     __tablename__ = 'content'
@@ -78,19 +78,19 @@ class Content(db.Model):
     referrer_id = db.Column(db.Integer, db.ForeignKey('referrer.id'))
 
     def __repr__(self):
-        return '<Content {}>'.format(self.username)
+        return '<Content {}>'.format(self.id)
 
 class Field(db.Model):
     __tablename__ = 'field'
     id = db.Column(db.Integer, primary_key=True)
-    profession = db.Column(db.Text, primary_key=True)
-    oral_skill = db.Column(db.Text, primary_key=True)
-    writing_skill = db.Column(db.Text, primary_key=True)
-    leadership = db.Column(db.Text, primary_key=True)
-    cooperation = db.Column(db.Text, primary_key=True)
+    profession = db.Column(db.Text, nullable=False)
+    oral_skill = db.Column(db.Text, nullable=False)
+    writing_skill = db.Column(db.Text, nullable=False)
+    leadership = db.Column(db.Text, nullable=False)
+    cooperation = db.Column(db.Text, nullable=False)
 
     # backref : contents
     content_id = db.Column(db.Integer, db.ForeignKey('content.id'))
 
     def __repr__(self):
-        return '<Field {}>'.format(self.username)
+        return '<Field {}>'.format(self.id)

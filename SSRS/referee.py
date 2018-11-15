@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 from email.header import Header
 
 from SSRS.auth import force_login
-from SSRS.model import db, User
+from SSRS.model import db, User, Institute, Referrer
 
 bp = Blueprint('referee', __name__, url_prefix='/referee')
 
@@ -14,7 +14,6 @@ bp = Blueprint('referee', __name__, url_prefix='/referee')
 @bp.route('/get_full_data', methods=['GET'])
 @force_login('referee.get_full_data')
 def get_full_data():
-    data = request.get_json()
     user = User.query.filter_by(id=g.user.id).first()
     returned = list()
     # gather all user specified data
@@ -40,6 +39,7 @@ def get_full_data():
 @force_login('referee.save')
 def save():
     data = request.get_json()
+    print(data)
     user = User.query.filter_by(id=g.user.id).first()
     new_institute = Institute(mail=data['institute_mail'],
                               title=data['institute_name'],
@@ -49,7 +49,7 @@ def save():
                                 title=referrer['title'],
                                 phone=referrer['phone'],
                                 mail=referrer['mail'],
-                                state=True,
+                                state=False,
                                 institutes=new_institute)
         db.session.add(new_referrer)
     db.session.add(new_institute)
@@ -117,11 +117,7 @@ def send_reminding_mail(user, referrer):
 
 def send_institute_mail(institute):
     try:
-        mail_content = '''
-        %s 您好，這是關於 %s 之所有推薦信內容：
-
-
-        '''
+        mail_content = '%s 您好，這是關於 %s 之所有推薦信內容：\n\n'% (institute.title, institute.users.name)
 
         for referrer in institute.referrers:
             mail_content += '推薦人: ' + referrer.name + referrer.title + '\n'
@@ -132,23 +128,22 @@ def send_institute_mail(institute):
             field = referrer.contents[0].fields[0]
 
             mail_content += '''
-            推薦內容:
-                專業能力: %s
-                口語能力: %s
-                寫作能力: %s
-                領導力  : %s
-                合作能力: %s
-                評論    : %s
-
-
+推薦內容:
+    專業能力: %s
+    口語能力: %s
+    寫作能力: %s
+    領導力  : %s
+    合作能力: %s
+評論    : %s\n\n
             ''' % (field.profession, field.oral_skill,
-                   field.writing_skill, field.ledaership,
+                   field.writing_skill, field.leadership,
                    field.cooperation, content.comment)
 
         receiver_name = institute.title
         send_mail([institute.mail], mail_content, receiver_name)
         return True
-    except:
+    except Exception as e:
+        print(e)
         print('Failure to send mail')
         return False
 

@@ -12,27 +12,35 @@ bp = Blueprint('referrer', __name__, url_prefix='/referrer')
 def submit(referrer_id):
     # TODO: if referrer non-existent previously, error occur
     referrer = Referrer.query.filter_by(id=int(referrer_id)).first()
+
     if referrer.state is True:
-        return render_template('finish.html')
+        return Response('ok')
+
+    print('get')
 
     if request.method == 'POST':
+        #referrer.state = True
         content = request.get_json()
-
 
         new_content = Content(comment=content['comment'],
                               referrers=referrer)
 
         new_field = Field(profession=content['profession'],
                           oral_skill=content['oral_skill'],
-                          writing_skill=content['writeing_skill'],
+                          writing_skill=content['writing_skill'],
                           leadership=content['leadership'],
                           cooperation=content['cooperation'],
                           contents=new_content)
 
         db.session.add(new_field)
         db.session.add(new_content)
+        db.session.add(referrer)
         db.session.commit()
 
-        return render_template('finish.html')
+        return jsonify(success=True)
 
     return render_template('referrer.html')
+
+@bp.route('/finish/', methods=['GET'])
+def finish():
+    return render_template('finish.html')
