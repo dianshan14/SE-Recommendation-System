@@ -61,7 +61,10 @@ document.addEventListener('DOMContentLoaded',function(){
             appendSend(i);
         });
     }
-    appendSubmit();
+    document.getElementById(`submit`).addEventListener("click",function(){
+        appendSubmit();
+    });
+
 
 });
 
